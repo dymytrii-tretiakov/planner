@@ -35,3 +35,12 @@ Open the Local URL printed by Vite (usually http://localhost:5173).
 - Snap-to-grid and rulers
 - Doors/windows and furniture elements
 - Persist rooms to localStorage
+
+## GitHub Pages
+
+The app auto-deploys to GitHub Pages on pushes to `main`.
+
+- Live URL (after first deploy):
+	https://dymytrii-tretiakov.github.io/planner/
+
+We set Vite base to `/planner/` in `vite.config.ts` and use a Pages workflow at `.github/workflows/deploy.yml`.
