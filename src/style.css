@@ -1,0 +1,292 @@
+:root {
+  --mui-surface: #121212;
+  --mui-panel: #1e1e1e;
+  --mui-border: #2a2a2a;
+  --mui-primary: #7aa2ff;
+  --mui-on-primary: #0b1020;
+  --mui-text: rgba(255, 255, 255, 0.87);
+  --mui-muted: #9aa0a6;
+  --mui-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.24);
+
+  /* Controls */
+  --mui-button-bg: #2a2e37;
+  --mui-button-bg-hover: #333845;
+  --mui-input-bg: #16181d;
+
+  /* Planner canvas theme tokens (dark default) */
+  --planner-canvas-bg: #0f1115;
+  --planner-grid: rgba(255, 255, 255, 0.06);
+  --planner-wall-fill: #1f2430;
+  --planner-room-outline: #7aa2ff;
+  --planner-label: rgba(255, 255, 255, 0.8);
+  --planner-dim: #94a3b8;
+  --planner-accent: #f59e0b;
+  --planner-door-fill: #8b5cf633;
+  --planner-door-stroke: #8b5cf6;
+  --planner-door-arc: #8b5cf6aa;
+  --planner-window-fill: #60a5fa1a;
+  --planner-window-stroke: #60a5fa;
+  --planner-bed-fill: #e2e8f0;
+  --planner-pillow-fill: #ffffff;
+  --planner-pillow-stroke: #94a3b8;
+  --planner-ns-fill: #f1f5f9;
+  --planner-ns-stroke: #64748b;
+  --planner-furniture-fill: #cbd5e1;
+  --planner-furniture-stroke: #334155;
+
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color-scheme: light dark;
+  color: var(--mui-text);
+  background: var(--mui-surface);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.app-root {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 1fr;
+  height: 100vh;
+}
+
+.sidebar {
+  background: var(--mui-panel);
+  border-right: 1px solid var(--mui-border);
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--mui-border);
+}
+.app-title {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.sidebar-content {
+  padding: 16px;
+  overflow: auto;
+}
+.section {
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--mui-muted);
+  margin-bottom: 8px;
+}
+.prop {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--mui-border);
+}
+
+.canvas-area {
+  display: grid;
+  grid-template-rows: 56px 1fr;
+  min-width: 0;
+}
+.topbar {
+  background: var(--mui-panel);
+  border-bottom: 1px solid var(--mui-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+.canvas-wrap {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+#planner-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--planner-canvas-bg);
+}
+
+.overlay-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: none;
+  background: var(--mui-panel);
+  color: var(--mui-text);
+  border: 1px solid var(--mui-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 180px;
+  box-shadow: var(--mui-shadow);
+  pointer-events: auto;
+  z-index: 10;
+}
+.overlay-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+}
+.overlay-title {
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--mui-muted);
+  grid-column: 1 / -1;
+}
+
+.dim-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--mui-panel);
+  color: var(--mui-text);
+  border: 1px solid var(--mui-border);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 12px;
+  line-height: 1;
+  box-shadow: var(--mui-shadow);
+  cursor: text;
+  z-index: 9;
+}
+
+.mui-btn {
+  border: 1px solid var(--mui-border);
+  background: var(--mui-button-bg);
+  color: var(--mui-text);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: 0.15s ease background, 0.15s ease border-color,
+    0.15s ease transform;
+}
+.mui-btn:hover {
+  background: var(--mui-button-bg-hover);
+}
+.mui-btn.primary {
+  background: var(--mui-primary);
+  border-color: transparent;
+  color: var(--mui-on-primary);
+}
+.mui-btn.primary:hover {
+  filter: brightness(0.95);
+}
+
+.elevation-1 {
+  box-shadow: var(--mui-shadow);
+}
+.elevation-2 {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.28), 0 8px 16px rgba(0, 0, 0, 0.32);
+}
+
+.mui-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.mui-dialog {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  background: var(--mui-panel);
+  color: var(--mui-text);
+  width: 380px;
+}
+.mui-dialog form {
+  padding: 16px;
+}
+.dialog-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin: 10px 0;
+}
+.input-suffix {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px;
+}
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--mui-border);
+  border-radius: 8px;
+  background: var(--mui-input-bg);
+  color: var(--mui-text);
+}
+.suffix {
+  color: var(--mui-muted);
+  padding: 0 8px;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --mui-surface: #f7f7f9;
+    --mui-panel: #ffffff;
+    --mui-border: #e3e6eb;
+    --mui-primary: #2962ff;
+    --mui-text: #0f172a;
+    --mui-muted: #5f6b7a;
+
+    /* Light tokens */
+    --planner-canvas-bg: #f4f6fb;
+    --planner-grid: rgba(0, 0, 0, 0.06);
+    --planner-wall-fill: #e7ecf5;
+    --planner-room-outline: #2962ff;
+    --planner-label: #334155;
+    --planner-dim: #64748b;
+    --planner-accent: #cc7a00;
+    --planner-door-fill: #8b5cf622;
+    --planner-door-stroke: #7c3aed;
+    --planner-door-arc: #7c3aed99;
+    --planner-window-fill: #3b82f61a;
+    --planner-window-stroke: #2563eb;
+    --planner-bed-fill: #e2e8f0;
+    --planner-pillow-fill: #ffffff;
+    --planner-pillow-stroke: #94a3b8;
+    --planner-ns-fill: #f1f5f9;
+    --planner-ns-stroke: #94a3b8;
+    --planner-furniture-fill: #e2e8f0;
+    --planner-furniture-stroke: #94a3b8;
+
+    /* Controls (light) */
+    --mui-button-bg: #f3f4f6; /* gray-100 */
+    --mui-button-bg-hover: #e5e7eb; /* gray-200 */
+    --mui-input-bg: #ffffff;
+  }
+}

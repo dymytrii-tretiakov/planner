@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Room Planner</title>
+  </head>
+  <body>
+    <div id="app" class="app-root">
+      <aside class="sidebar elevation-2">
+        <div class="sidebar-header">
+          <span class="app-title">Planner</span>
+        </div>
+        <div class="sidebar-content">
+          <div class="section">
+            <div class="section-title">Properties</div>
+            <div id="room-props" class="props">
+              <div class="prop">
+                <span>Width:</span><span id="prop-width">—</span>
+              </div>
+              <div class="prop">
+                <span>Height:</span><span id="prop-height">—</span>
+              </div>
+              <div class="prop">
+                <span>Scale:</span><span id="prop-scale">—</span>
+              </div>
+              <div class="prop">
+                <span>Wall:</span><span id="prop-wall">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="section-title">Add Objects</div>
+            <div style="display: flex; gap: 8px; flex-direction: column">
+              <button id="add-window" class="mui-btn">Add Window</button>
+              <button id="add-door" class="mui-btn">Add Door</button>
+              <button id="add-bed" class="mui-btn">Add Bed</button>
+              <button id="add-furniture" class="mui-btn">Add Furniture</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="canvas-area">
+        <header
+          class="topbar elevation-1"
+          style="display: flex; gap: 8px; align-items: center"
+        >
+          <button id="new-room-btn" class="mui-btn primary">New Room</button>
+          <select
+            id="project-select"
+            class="mui-input"
+            style="min-width: 180px"
+          >
+            <option value="">— Projects —</option>
+          </select>
+          <button id="save-project" class="mui-btn">Save</button>
+          <button id="load-project" class="mui-btn">Load</button>
+          <span
+            id="active-project-indicator"
+            style="margin-left: auto; opacity: 0.7; font-size: 12px"
+            >No project</span
+          >
+        </header>
+        <div class="canvas-wrap">
+          <canvas id="planner-canvas"></canvas>
+          <div id="opening-panel" class="overlay-panel" style="display: none">
+            <div class="overlay-row">
+              <span id="overlay-title" class="overlay-title">Opening</span>
+            </div>
+            <div class="overlay-row">
+              <label for="opening-length">Width</label>
+              <div class="input-suffix">
+                <input
+                  id="opening-length"
+                  type="number"
+                  min="0.2"
+                  step="0.05"
+                />
+                <span class="suffix">m</span>
+              </div>
+            </div>
+            <div class="overlay-row">
+              <label for="door-open">Door open</label>
+              <div class="input-suffix">
+                <input id="door-open" type="range" min="0" max="100" step="1" />
+                <span class="suffix">%</span>
+              </div>
+            </div>
+            <div class="overlay-row" style="gap: 8px">
+              <button id="door-mirror-h" class="mui-btn">Mirror H</button>
+              <button id="door-mirror-v" class="mui-btn">Mirror V</button>
+            </div>
+            <div class="overlay-row">
+              <label>
+                <input id="door-hinge" type="checkbox" /> hinge at start
+              </label>
+            </div>
+          </div>
+          <!-- Bed panel -->
+          <div id="bed-panel" class="overlay-panel" style="display: none">
+            <div class="overlay-row">
+              <span class="overlay-title">Bed</span>
+            </div>
+            <div class="overlay-row" style="gap: 8px">
+              <label for="bed-width">W</label>
+              <div class="input-suffix">
+                <input id="bed-width" type="number" min="0.6" step="0.1" />
+                <span class="suffix">m</span>
+              </div>
+              <label for="bed-height">H</label>
+              <div class="input-suffix">
+                <input id="bed-height" type="number" min="0.6" step="0.1" />
+                <span class="suffix">m</span>
+              </div>
+              <label for="bed-ns-size">NS</label>
+              <div class="input-suffix">
+                <input id="bed-ns-size" type="number" min="0.2" step="0.05" />
+                <span class="suffix">m</span>
+              </div>
+            </div>
+            <div class="overlay-row" style="gap: 12px">
+              <label
+                ><input id="bed-ns-left" type="checkbox" /> left bedside
+                table</label
+              >
+              <label
+                ><input id="bed-ns-right" type="checkbox" /> right bedside
+                table</label
+              >
+            </div>
+            <div class="overlay-row">
+              <small>Tip: press R to rotate 90°</small>
+            </div>
+          </div>
+          <!-- Furniture panel -->
+          <div id="furniture-panel" class="overlay-panel" style="display: none">
+            <div class="overlay-row">
+              <span class="overlay-title">Furniture</span>
+            </div>
+            <div class="overlay-row" style="gap: 8px">
+              <label for="furn-width">W</label>
+              <div class="input-suffix">
+                <input id="furn-width" type="number" min="0.3" step="0.05" />
+                <span class="suffix">m</span>
+              </div>
+              <label for="furn-height">H</label>
+              <div class="input-suffix">
+                <input id="furn-height" type="number" min="0.3" step="0.05" />
+                <span class="suffix">m</span>
+              </div>
+            </div>
+            <div class="overlay-row">
+              <label for="furn-label">Label</label>
+              <input id="furn-label" type="text" placeholder="e.g. Table" />
+            </div>
+            <div class="overlay-row">
+              <small>Tip: press R to rotate 90°</small>
+            </div>
+          </div>
+          <!-- Dimension labels for start/end offsets -->
+          <div
+            id="dim-start-label"
+            class="dim-label"
+            style="display: none"
+          ></div>
+          <div id="dim-end-label" class="dim-label" style="display: none"></div>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="room-dialog" class="mui-dialog">
+      <form method="dialog" id="room-form">
+        <h3 class="dialog-title">Create New Room</h3>
+        <div class="form-row">
+          <label for="room-width">Width</label>
+          <div class="input-suffix">
+            <input
+              id="room-width"
+              name="width"
+              type="number"
+              min="1"
+              step="0.1"
+              required
+            />
+            <span class="suffix">m</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="room-height">Height</label>
+          <div class="input-suffix">
+            <input
+              id="room-height"
+              name="height"
+              type="number"
+              min="1"
+              step="0.1"
+              required
+            />
+            <span class="suffix">m</span>
+          </div>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" id="dialog-cancel" class="mui-btn">
+            Cancel
+          </button>
+          <button type="submit" class="mui-btn primary">Create</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
